@@ -1,0 +1,4 @@
+﻿TABLE:  Material Properties - Basic Mechanical Properties,,,,,,,
+Material,DensityType,UnitWeight,UnitMass,E1,G12,U12,A1
+,,N/mm³,N-s²/mm⁴,MPa,MPa,,1/F
+A992Fy50,Weight,0.000077,7.849E-09,199947.98,76903.07,0.3,0.0000065

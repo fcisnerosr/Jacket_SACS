@@ -1,0 +1,7 @@
+﻿TABLE:  Frame Section Property Definitions - Steel Pipe,,,,
+Name,Material,From File?,Outside Diameter,Wall Thickness
+,,,mm,mm
+SECC01,A992Fy50,No,1600,25.4
+SECC02,A992Fy50,No,1600,25.4
+SECC03,A992Fy50,No,1981.2,38.1
+SECC04,A992Fy50,No,2184.4,38.1
