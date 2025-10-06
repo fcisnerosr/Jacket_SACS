@@ -105,66 +105,144 @@ python build_sacs_inp.py   --nodes    data/nodos.csv   --beams    data/beam_cone
 ```
 
 Salidas esperadas (en Windows):
-C:\Users\<TU_USUARIO>\Desktop\Jacket_SACS\out\jacket_model.inp
-C:\Users\<TU_USUARIO>\Desktop\Jacket_SACS\out\mudline_joints.txt
+Jacket_SACS — Generador de modelo SACS (.inp) desde CSV
+=======================================================
 
-8) Abrir en SACS (desde Windows)
---------------------------------
-1. SACS Executive → Precede (Modeler)
-2. File → Open (o Import → SACS Input) → selecciona:
-   C:\Users\<TU_USUARIO>\Desktop\Jacket_SACS\out\jacket_model.inp
-3. Unidades: Métrico (m, N, Pa).
-4. (Opcional) Empotrar base: selecciona joints con Z=0 (tolerancia ±0.001 m)
-   → Joints → Restraints → fija UX, UY, UZ, RX, RY, RZ.
+Este proyecto contiene un script en Python (`build_sacs_inp.py`) que genera un archivo de entrada de SACS (`.inp`) a partir de CSV exportados de ETABS/SAP. Produce un modelo geométrico (sin cargas) y un listado de juntas en la línea de lodo (mudline) para fijarlas en SACS Precede.
 
-9) Script de conveniencia (run_build.sh)
-----------------------------------------
-Guárdalo en ~/Jacket_SACS/run_build.sh y hazlo ejecutable (chmod +x).
+Qué genera:
+- `out/jacket_model.inp`: JOINT/SECT/GRUP/MEMBER en unidades SI (m, N, Pa)
+- `out/mudline_joints.txt`: lista de joints con Z≈0 para asignar empotramientos
+
+Requisitos
+----------
+- Linux (Debian/Ubuntu) o WSL2 en Windows
+- Python 3.10 a 3.12
+- Paquetes de Python listados en `requirements.txt`
+
+Dependencias (requirements.txt)
+-------------------------------
+- pandas==2.2.2
+- numpy==1.26.4
+- openpyxl==3.1.5
+
+Estructura del proyecto (sugerida)
+----------------------------------
+```
+Jacket_SACS/
+├─ build_sacs_inp.py     # script generador del .inp
+├─ requirements.txt      # dependencias de Python
+├─ run_build.sh          # script de conveniencia para ejecutar todo
+├─ nodos.csv             # CSV de entrada (ver sección "Entradas")
+├─ beam_conectivity.csv
+├─ brace_conectivity.csv
+├─ columns_conectivity.csv
+├─ frame_assignments.csv
+├─ secciones.csv
+├─ material.csv          # opcional
+└─ out/                  # salidas (se crea automáticamente)
+```
+
+Instalación y ejecución (Linux/WSL)
+-----------------------------------
+
+1) Instalar soporte para entornos virtuales (solo una vez):
 ```bash
-#!/usr/bin/env bash
-set -euo pipefail
-cd "$(dirname "$0")"
+sudo apt-get update
+sudo apt-get install -y python3-venv
+```
+
+2) Preparar entorno, instalar dependencias y ejecutar con el script de conveniencia:
+```bash
+chmod +x run_build.sh
+./run_build.sh
+```
+
+El script `run_build.sh` crea/activa el entorno virtual, instala dependencias (si hace falta) y ejecuta `build_sacs_inp.py` con rutas por defecto, escribiendo en `out/`.
+
+Ejecución manual (alternativa)
+------------------------------
+```bash
+# crear y activar venv
+python3 -m venv venv
 source venv/bin/activate
+
+# instalar dependencias
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+
+# ejecutar usando los CSV en el directorio del repo
+python build_sacs_inp.py \
+  --nodes    nodos.csv \
+  --beams    beam_conectivity.csv \
+  --braces   brace_conectivity.csv \
+  --columns  columns_conectivity.csv \
+  --assign   frame_assignments.csv \
+  --sections secciones.csv \
+  --material material.csv \
+  --out      out/jacket_model.inp \
+  --mudline  out/mudline_joints.txt
 ```
 
-OUT_WIN="/mnt/c/Users/<TU_USUARIO>/Desktop/Jacket_SACS/out"
-mkdir -p "$OUT_WIN"
-
-python build_sacs_inp.py   --nodes    data/nodos.csv   --beams    data/beam_conectivity.csv   --braces   data/brace_conectivity.csv   --columns  data/columns_conectivity.csv   --assign   data/frame_assignments.csv   --sections data/secciones.csv   --material data/material.csv   --out      "$OUT_WIN/jacket_model.inp"   --mudline  "$OUT_WIN/mudline_joints.txt"
-
-echo "Listo: $OUT_WIN/jacket_model.inp"
-
-10) Verificaciones rápidas en WSL
+Entradas (CSV) y formato esperado
 ---------------------------------
-```bash
-grep -cE '^JOINT  J'  "/mnt/c/Users/<TU_USUARIO>/Desktop/Jacket_SACS/out/jacket_model.inp"
-grep -cE '^MEMBER'    "/mnt/c/Users/<TU_USUARIO>/Desktop/Jacket_SACS/out/jacket_model.inp"
-grep -E  '^SECT|^GRUP' "/mnt/c/Users/<TU_USUARIO>/Desktop/Jacket_SACS/out/jacket_model.inp" | head -n 20
+- `nodos.csv`
+  - Columnas: `UniqueName`, `X`, `Y`, `Z`.
+  - Unidades: mm o m. El script detecta unidades y convierte a metros automáticamente. Puede ignorar una fila de unidades si existe.
+- `beam_conectivity.csv`, `brace_conectivity.csv`, `columns_conectivity.csv`
+  - Deben contener los IDs de nodo de los extremos I/J. El script detecta columnas tipo `UniquePtI`/`UniquePtJ` (tolerante a encabezados comunes de ETABS/SAP).
+- `frame_assignments.csv`
+  - Debe incluir una columna `Section Property` y una columna de identificador de frame (p. ej., `UniqueName`). Mapea cada frame a una sección.
+- `secciones.csv`
+  - Debe incluir `Name` (sección ETABS), `Outside Diameter` (mm), `Wall Thickness` (mm), `Material`. El script convierte OD y t a metros para SACS.
+- `material.csv` (opcional)
+  - Si se proporciona, puede incluir columnas para `E`, `nu`, `fy`, `rho`. Si faltan, se usan valores por defecto (A992Fy50): E=1.999e11 Pa, nu=0.30, fy=345 MPa, rho=7850 kg/m3.
+
+Salidas
+-------
+- `out/jacket_model.inp`
+  - Secciones: bloque `SECT` con tubos (OD, t en m)
+  - Grupos: bloque `GRUP` con propiedades de material/sección
+  - Nudos: bloque `JOINT` con coordenadas en m
+  - Miembros: bloque `MEMBER` con pares I–J y grupo asociado
+- `out/mudline_joints.txt`
+  - Lista de joints con |Z| ≤ 0.001 m para empotrar (UX, UY, UZ, RX, RY, RZ) en Precede.
+
+Uso de la CLI (argumentos)
+--------------------------
+```text
+--nodes      ruta a nodos.csv                 (por defecto: nodos.csv)
+--beams      ruta a beam_conectivity.csv      (por defecto: beam_conectivity.csv)
+--braces     ruta a brace_conectivity.csv     (por defecto: brace_conectivity.csv)
+--columns    ruta a columns_conectivity.csv   (por defecto: columns_conectivity.csv)
+--assign     ruta a frame_assignments.csv     (por defecto: frame_assignments.csv)
+--sections   ruta a secciones.csv             (por defecto: secciones.csv)
+--material   ruta a material.csv              (por defecto: material.csv)
+--out        archivo .inp de salida           (por defecto: jacket_model.inp)
+--mudline    archivo de joints mudline        (por defecto: mudline_joints.txt)
 ```
 
-11) Problemas comunes
+Abrir en SACS (opcional)
+------------------------
+1) Precede (Modeler) → File → Open (o Import → SACS Input) → seleccionar `out/jacket_model.inp`
+2) Unidades: Métrico (m, N, Pa)
+3) Empotrar base: usar `out/mudline_joints.txt` para seleccionar joints con Z≈0 y fijar UX, UY, UZ, RX, RY, RZ
+
+Solución de problemas
 ---------------------
-- No veo barras (solo puntos): revisa que frame_assignments.csv y secciones.csv
-  incluyan las secciones usadas por los frames (p. ej., SECC01, SECC04).
-- Diámetros/Espesores raros: secciones.csv debe estar en mm; el script convierte a m.
-- CSV con separador ';': vuelve a guardar como CSV con coma (UTF-8).
-- Archivos abiertos en Excel: ciérralos antes de ejecutar el script.
-- Permisos: si no puedes escribir en C:\..., verifica la ruta OUT_WIN o usa otra carpeta.
+- No se crea el venv: instala `python3-venv` (ver pasos de instalación)
+- No aparecen barras (solo puntos): revisa que `frame_assignments.csv` contenga `Section Property` y que `secciones.csv` incluya todas las secciones usadas por los frames
+- Diámetros/Espesores extraños: `secciones.csv` debe estar en mm; el script convierte a m
+- CSV con separador `;`: vuelve a guardar como CSV con coma y codificación UTF-8
+- Archivos abiertos en Excel: ciérralos antes de ejecutar
 
-12) Versionado (.gitignore sugerido)
-------------------------------------
-/venv/
-/out/*
-*.log
-*.lst
-*.out
-*.mdb
-*.db
-Thumbs.db
-.DS_Store
+Integración con VS Code (opcional)
+----------------------------------
+Incluimos una tarea para ejecutar todo con un clic (Terminal → Run Task → "Run: build_sacs_inp")
 
-Notas finales
--------------
-- El script no coloca releases ni beta; todos los miembros son continuos.
-- Los apoyos en mudline no se fijan en el .inp (varía por versión); se listan en mudline_joints.txt
-  para asignarlos en Precede (empotrado 6 GDL).
+Si deseas modificar rutas/argumentos, edita `.vscode/tasks.json`.
+
+Notas
+-----
+- El script no coloca releases; todos los miembros son continuos.
+- Los apoyos de base no se fijan en el `.inp` por compatibilidad; se listan en `mudline_joints.txt` para asignarlos en Precede.

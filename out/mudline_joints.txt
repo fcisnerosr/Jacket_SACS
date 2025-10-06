@@ -1,0 +1,5 @@
+* Joints a empotrar (Z≈0) — fijar UX,UY,UZ,RX,RY,RZ
+J1
+J2
+J3
+J4

@@ -1,0 +1,210 @@
+* ============================================================
+* Modelo geométrico SACS — generado desde CSV (SI: m, N, Pa)
+* JOINT/SECT/GRUP/MEMBER — sin releases; empotramientos ver listado
+* ============================================================
+OPTIONS  MN
+
+* --- SECCIONES TUBULARES ---
+SECT
+SECT  SECC01        TUB  1.600000  0.025400
+SECT  SECC04        TUB  2.184400  0.038100
+
+* --- GRUPOS (Material/Sección) ---
+GRUP
+GRUP  SECC01_GRP    SECC01        1.999480E+11  0.30  3.450000E+08  7850.0
+GRUP  SECC04_GRP    SECC04        1.999480E+11  0.30  3.450000E+08  7850.0
+
+* --- JOINTS (id  X  Y  Z) ---
+JOINT
+JOINT  J52           12.500  29.167  118.000
+JOINT  J51           29.167  29.167  118.000
+JOINT  J50           29.167  12.500  118.000
+JOINT  J49           12.500  12.500  118.000
+JOINT  J48           12.500  29.167  109.000
+JOINT  J47           29.167  29.167  109.000
+JOINT  J46           29.167  12.500  109.000
+JOINT  J45           12.500  12.500  109.000
+JOINT  J44           12.500  29.167  100.000
+JOINT  J43           29.167  29.167  100.000
+JOINT  J42           29.167  12.500  100.000
+JOINT  J41           12.500  12.500  100.000
+JOINT  J39           20.833  30.254  91.304
+JOINT  J40           11.413  20.833  91.304
+JOINT  J37           20.833  11.413  91.304
+JOINT  J38           30.254  20.833  91.304
+JOINT  J36           10.000  31.667  80.000
+JOINT  J35           31.667  31.667  80.000
+JOINT  J34           31.667  10.000  80.000
+JOINT  J33           10.000  10.000  80.000
+JOINT  J32           8.879  20.833  71.034
+JOINT  J29           20.833  8.879  71.034
+JOINT  J30           32.787  20.833  71.034
+JOINT  J31           20.833  32.787  71.034
+JOINT  J28           7.500  34.167  60.000
+JOINT  J27           34.167  34.167  60.000
+JOINT  J26           34.167  7.500  60.000
+JOINT  J25           7.500  7.500  60.000
+JOINT  J21           6.357  20.833  50.857
+JOINT  J22           20.833  6.357  50.857
+JOINT  J23           35.310  20.833  50.857
+JOINT  J24           20.833  35.310  50.857
+JOINT  J17           5.000  5.000  40.000
+JOINT  J18           36.667  5.000  40.000
+JOINT  J19           36.667  36.667  40.000
+JOINT  J20           5.000  36.667  40.000
+JOINT  J13           20.833  3.841  30.732
+JOINT  J14           37.825  20.833  30.732
+JOINT  J15           20.833  37.825  30.732
+JOINT  J16           3.841  20.833  30.732
+JOINT  J9            2.500  2.500  20.000
+JOINT  J10           39.167  2.500  20.000
+JOINT  J5            20.833  1.330  10.638
+JOINT  J11           39.167  39.167  20.000
+JOINT  J12           2.500  39.167  20.000
+JOINT  J7            20.833  40.337  10.638
+JOINT  J6            40.337  20.833  10.638
+JOINT  J8            1.330  20.833  10.638
+JOINT  J1            0.000  0.000  0.000
+JOINT  J2            41.667  0.000  0.000
+JOINT  J3            41.667  41.667  0.000
+JOINT  J4            0.000  41.667  0.000
+
+* --- MEMBERS (A  B  Grupo) ---
+MEMBER
+MEMBER  J52           J51           SECC01_GRP
+MEMBER  J50           J51           SECC01_GRP
+MEMBER  J49           J50           SECC01_GRP
+MEMBER  J49           J52           SECC01_GRP
+MEMBER  J48           J47           SECC01_GRP
+MEMBER  J46           J47           SECC01_GRP
+MEMBER  J45           J46           SECC01_GRP
+MEMBER  J45           J48           SECC01_GRP
+MEMBER  J44           J43           SECC01_GRP
+MEMBER  J42           J43           SECC01_GRP
+MEMBER  J41           J42           SECC01_GRP
+MEMBER  J41           J44           SECC01_GRP
+MEMBER  J36           J35           SECC01_GRP
+MEMBER  J34           J35           SECC01_GRP
+MEMBER  J33           J34           SECC01_GRP
+MEMBER  J33           J36           SECC01_GRP
+MEMBER  J28           J27           SECC01_GRP
+MEMBER  J26           J27           SECC01_GRP
+MEMBER  J25           J26           SECC01_GRP
+MEMBER  J25           J28           SECC01_GRP
+MEMBER  J17           J18           SECC01_GRP
+MEMBER  J18           J19           SECC01_GRP
+MEMBER  J20           J19           SECC01_GRP
+MEMBER  J17           J20           SECC01_GRP
+MEMBER  J9            J10           SECC01_GRP
+MEMBER  J10           J11           SECC01_GRP
+MEMBER  J12           J11           SECC01_GRP
+MEMBER  J9            J12           SECC01_GRP
+MEMBER  J35           J43           SECC01_GRP
+MEMBER  J36           J44           SECC01_GRP
+MEMBER  J33           J41           SECC01_GRP
+MEMBER  J34           J42           SECC01_GRP
+MEMBER  J35           J39           SECC01_GRP
+MEMBER  J39           J44           SECC01_GRP
+MEMBER  J36           J39           SECC01_GRP
+MEMBER  J39           J43           SECC01_GRP
+MEMBER  J36           J40           SECC01_GRP
+MEMBER  J40           J41           SECC01_GRP
+MEMBER  J33           J40           SECC01_GRP
+MEMBER  J40           J44           SECC01_GRP
+MEMBER  J33           J37           SECC01_GRP
+MEMBER  J37           J42           SECC01_GRP
+MEMBER  J34           J37           SECC01_GRP
+MEMBER  J37           J41           SECC01_GRP
+MEMBER  J34           J38           SECC01_GRP
+MEMBER  J38           J43           SECC01_GRP
+MEMBER  J35           J38           SECC01_GRP
+MEMBER  J38           J42           SECC01_GRP
+MEMBER  J28           J36           SECC01_GRP
+MEMBER  J25           J33           SECC01_GRP
+MEMBER  J26           J34           SECC01_GRP
+MEMBER  J27           J35           SECC01_GRP
+MEMBER  J28           J32           SECC01_GRP
+MEMBER  J32           J33           SECC01_GRP
+MEMBER  J25           J32           SECC01_GRP
+MEMBER  J32           J36           SECC01_GRP
+MEMBER  J25           J29           SECC01_GRP
+MEMBER  J29           J34           SECC01_GRP
+MEMBER  J26           J29           SECC01_GRP
+MEMBER  J29           J33           SECC01_GRP
+MEMBER  J26           J30           SECC01_GRP
+MEMBER  J30           J35           SECC01_GRP
+MEMBER  J27           J30           SECC01_GRP
+MEMBER  J30           J34           SECC01_GRP
+MEMBER  J27           J31           SECC01_GRP
+MEMBER  J31           J36           SECC01_GRP
+MEMBER  J28           J31           SECC01_GRP
+MEMBER  J31           J35           SECC01_GRP
+MEMBER  J20           J28           SECC01_GRP
+MEMBER  J17           J25           SECC01_GRP
+MEMBER  J18           J26           SECC01_GRP
+MEMBER  J19           J27           SECC01_GRP
+MEMBER  J20           J21           SECC01_GRP
+MEMBER  J21           J25           SECC01_GRP
+MEMBER  J17           J21           SECC01_GRP
+MEMBER  J21           J28           SECC01_GRP
+MEMBER  J17           J22           SECC01_GRP
+MEMBER  J22           J26           SECC01_GRP
+MEMBER  J18           J22           SECC01_GRP
+MEMBER  J22           J25           SECC01_GRP
+MEMBER  J18           J23           SECC01_GRP
+MEMBER  J23           J27           SECC01_GRP
+MEMBER  J19           J23           SECC01_GRP
+MEMBER  J23           J26           SECC01_GRP
+MEMBER  J19           J24           SECC01_GRP
+MEMBER  J24           J28           SECC01_GRP
+MEMBER  J20           J24           SECC01_GRP
+MEMBER  J24           J27           SECC01_GRP
+MEMBER  J9            J17           SECC04_GRP
+MEMBER  J10           J18           SECC04_GRP
+MEMBER  J11           J19           SECC04_GRP
+MEMBER  J12           J20           SECC04_GRP
+MEMBER  J9            J13           SECC04_GRP
+MEMBER  J13           J18           SECC04_GRP
+MEMBER  J10           J13           SECC04_GRP
+MEMBER  J13           J17           SECC04_GRP
+MEMBER  J10           J14           SECC04_GRP
+MEMBER  J14           J19           SECC04_GRP
+MEMBER  J11           J14           SECC04_GRP
+MEMBER  J14           J18           SECC04_GRP
+MEMBER  J11           J15           SECC04_GRP
+MEMBER  J15           J20           SECC04_GRP
+MEMBER  J12           J15           SECC04_GRP
+MEMBER  J15           J19           SECC04_GRP
+MEMBER  J12           J16           SECC04_GRP
+MEMBER  J16           J17           SECC04_GRP
+MEMBER  J9            J16           SECC04_GRP
+MEMBER  J16           J20           SECC04_GRP
+MEMBER  J1            J9            SECC04_GRP
+MEMBER  J1            J5            SECC04_GRP
+MEMBER  J5            J10           SECC04_GRP
+MEMBER  J2            J5            SECC04_GRP
+MEMBER  J5            J9            SECC04_GRP
+MEMBER  J2            J10           SECC04_GRP
+MEMBER  J3            J11           SECC04_GRP
+MEMBER  J4            J12           SECC04_GRP
+MEMBER  J3            J7            SECC04_GRP
+MEMBER  J7            J12           SECC04_GRP
+MEMBER  J4            J7            SECC04_GRP
+MEMBER  J7            J11           SECC04_GRP
+MEMBER  J2            J6            SECC04_GRP
+MEMBER  J6            J11           SECC04_GRP
+MEMBER  J3            J6            SECC04_GRP
+MEMBER  J6            J10           SECC04_GRP
+MEMBER  J1            J8            SECC04_GRP
+MEMBER  J8            J12           SECC04_GRP
+MEMBER  J4            J8            SECC04_GRP
+MEMBER  J8            J9            SECC04_GRP
+MEMBER  J45           J49           SECC01_GRP
+MEMBER  J46           J50           SECC01_GRP
+MEMBER  J47           J51           SECC01_GRP
+MEMBER  J48           J52           SECC01_GRP
+MEMBER  J41           J45           SECC01_GRP
+MEMBER  J42           J46           SECC01_GRP
+MEMBER  J43           J47           SECC01_GRP
+MEMBER  J44           J48           SECC01_GRP
+END
